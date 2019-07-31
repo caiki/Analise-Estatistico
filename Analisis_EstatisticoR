@@ -1,0 +1,174 @@
+---
+  titulo: "Trabalho R - Análise Estatístico"
+---
+  
+# Instalar pacotes
+#install.packages("tidyverse")
+library (tidyverse)
+
+#install.packages("readxl")
+library(readxl)
+
+#install.packages("epitools")
+library (epitools)
+
+# Importar banco de dados
+nutrifamilia <- read_excel("E:/TrabalhodeR/nutrifamilia.xlsx")
+str(nutrifamilia)
+summary(nutrifamilia)
+
+# Transformar vari�veis categ�ricas em fatores: 
+#id, sexo, ocupacao, estadocivil, escola, cor, chefefam, ocupchef, corchef
+nutrifamilia$id <- as.factor (nutrifamilia$id)
+nutrifamilia$sexo <- as.factor (nutrifamilia$sexo)
+nutrifamilia$ocupacao <- as.factor (nutrifamilia$ocupacao)
+nutrifamilia$estadocivil <- as.factor (nutrifamilia$estadocivil)
+nutrifamilia$escola <- as.factor (nutrifamilia$escola)
+nutrifamilia$cor <- as.factor (nutrifamilia$cor)
+nutrifamilia$chefefam <- as.factor (nutrifamilia$chefefam)
+nutrifamilia$ocupchef <- as.factor (nutrifamilia$ocupchef)
+nutrifamilia$corchef <- as.factor (nutrifamilia$corchef)
+
+str(nutrifamilia)
+
+summary(nutrifamilia)
+
+#Variavel Categ�rica (frequencias absoluta e relativa)
+# ocupacao, estadocivil, escola, cor, chefefam, ocupchef, corchef
+
+table(nutrifamilia$ocupacao)
+100*table(nutrifamilia$ocupacao)/sum(table(nutrifamilia$ocupacao))
+
+table(nutrifamilia$escola)
+100*table(nutrifamilia$escola)/sum(table(nutrifamilia$escola))
+
+table(nutrifamilia$estadocivil)
+100*table(nutrifamilia$estadocivil)/sum(table(nutrifamilia$estadocivil))
+
+table(nutrifamilia$cor)
+100*table(nutrifamilia$cor)/sum(table(nutrifamilia$cor))
+
+table(nutrifamilia$chefefam)
+100*table(nutrifamilia$chefefam)/sum(table(nutrifamilia$chefefam))
+
+table(nutrifamilia$ocupchef)
+100*table(nutrifamilia$ocupchef)/sum(table(nutrifamilia$ocupchef))
+
+table(nutrifamilia$corchef)
+100*table(nutrifamilia$corchef)/sum(table(nutrifamilia$corchef))
+
+# Vari�veis categ�ricas
+# Gr�ficos de barras
+ocupacao <- c(14,15,21,1)
+names(ocupacao) <- c("R.formal", "R.informal", "N�o trab.", "Aposent.")
+barplot(ocupacao, main = "Ocupa��o das mulheres", ylab = "N�mero de indiv�duos", xlab = "Ocupa��o", ylim = c(0,25), col=c("lightsalmon1","lightgoldenrodyellow", "lightsteelblue1", "mediumaquamarine"))
+
+estadocivil <- c(8,13,19,6,5)
+names(estadocivil) <- c("Casada", "Solteira", "U.est�vel", "Morajunto", "Divorc.")
+barplot(estadocivil, main = "Estado civil das mulheres", ylab = "N�mero de indiv�duos", xlab = "Estado civil", ylim = c(0,20), col=c("lightsalmon1","lightgoldenrodyellow", "lightsteelblue1", "mediumaquamarine", "brown3"))
+
+escola <- c(20,14,10,7)
+names(escola) <- c("<4 anos", "4-8 anos", "9-12 anos", ">12 anos")
+barplot(escola, main = "Escolaridade das mulheres", ylab = "N�mero de indiv�duos", xlab = "Escolaridade", ylim = c(0,25), col=c("orange","blue","salmon4","limegreen","turquoise"))
+
+cor <- c(23,13,15)
+names(cor) <- c("Branca", "Negra", "Parda")
+barplot(cor, main = "Cor da pele das mulheres", ylab = "N�mero de indiv�duos", xlab = "Cor da pele", ylim = c(0,25), col=c("lightsalmon1","lightgoldenrodyellow", "lightsteelblue1"))
+
+chefefam <- c(33,12,6)
+names(chefefam) <- c("Mulher", "Homem", "Av�")
+barplot(chefefam, main = "Chefe de fam�lia do domic�lio", ylab = "N�mero de indiv�duos", xlab = "Chefe de fam�lia", ylim = c(0,40), col=c("lightsalmon1","turquoise", "lightgoldenrodyellow"))
+
+ocupchef <- c(19,20,12)
+names(ocupchef) <- c("R.formal", "R.informal", "N�o trabalha")
+barplot(ocupchef, main = "Ocupa��o do(a) chefe de fam�lia", ylab = "N�mero de indiv�duos", xlab = "Ocupa��o do(a) chefe de fam�lia", ylim = c(0,25), col=c("orange","blue","salmon4"))
+
+corchef <- c(20,16,15)
+names(corchef) <- c("Branca", "Negra", "Parda")
+barplot(corchef, main = "Cor da pele do(a) chefe de fam�lia", ylab = "N�mero de indiv�duos", xlab = "Cor do(a) chefe de fam�lia", ylim = c(0,25), col=c("lightsalmon1","lightgoldenrodyellow", "turquoise"))
+
+# Separar vari�veis quantitativas do banco de dados
+dataquantitativa <- nutrifamilia[,c("idade","nfilhos","peso","altura","IMC")]
+str(dataquantitativa)
+summary(dataquantitativa)
+
+# Vari�veis quantitativas (distribui��o, medidas resumo, dispers�o) 
+#Medidas resumo e de dispers�o
+
+mean(dataquantitativa$idade)
+sd(dataquantitativa$idade)
+
+mean(dataquantitativa$nfilhos)
+sd(dataquantitativa$nfilhos)
+
+mean(dataquantitativa$peso)
+sd(dataquantitativa$peso)
+
+mean(dataquantitativa$altura)
+sd(dataquantitativa$altura)
+
+mean(dataquantitativa$IMC)
+sd(dataquantitativa$IMC)
+
+#Verifica��o de distribui��o normal
+par(mfrow=c(1,2))
+hist(dataquantitativa$idade, main = "Histograma de idade das mulheres (anos)",ylim=c(0,15), xlim=c(20,70), ylab="Densidade", xlab="Idade (anos)", col=("pink"))
+qqnorm(dataquantitativa$idade)
+qqline(dataquantitativa$idade)
+
+par(mfrow=c(1,2))
+hist(dataquantitativa$nfilhos, main = "Histograma de n�mero de filhos",ylim=c(0,20), xlim=c(0.5,7), ylab="Densidade", xlab="N�mero de filhos", col=("pink"))
+qqnorm(dataquantitativa$nfilhos)
+qqline(dataquantitativa$nfilhos)
+
+par(mfrow=c(1,2))
+hist(dataquantitativa$peso, main = "Histograma de peso",ylim=c(0,15), xlim=c(35,125), ylab="Densidade", xlab="Peso", col=("pink"))
+qqnorm(dataquantitativa$peso)
+qqline(dataquantitativa$peso)
+
+par(mfrow=c(1,2))
+hist(dataquantitativa$altura, main = "Histograma de altura",ylim=c(0,20), xlim=c(1.40,1.9), ylab="Densidade", xlab="Altura", col=("pink"))
+qqnorm(dataquantitativa$altura)
+qqline(dataquantitativa$altura)
+
+hist(dataquantitativa$IMC, main = "Histograma de IMC",ylim=c(0,20), xlim=c(15,60), ylab="Densidade", xlab="Indice de massa corporal", col=("pink"))
+qqnorm(dataquantitativa$IMC)
+qqline(dataquantitativa$IMC)
+
+# Teste de Shapiro Wilk para verifica��o de normalidade das vari�veis
+shapiro.test(dataquantitativa$idade)
+shapiro.test(dataquantitativa$nfilhos)
+shapiro.test(dataquantitativa$peso)
+shapiro.test(dataquantitativa$altura)
+shapiro.test(dataquantitativa$IMC)
+
+# Boxplots
+par(mfrow=c(2,2))
+boxplot(dataquantitativa$idade,main="Boxplot da idade das mulheres",ylab="Idade (anos)", col=c("pink1"))
+boxplot(dataquantitativa$nfilhos,main="Boxplot do n�mero de filhos",ylab="N�mero de filhos", col=c("blue"))
+boxplot(dataquantitativa$peso,main="Boxplot do peso das mulheres",ylab="Peso (kg)", col=c("mediumaquamarine"))
+boxplot(dataquantitativa$altura,main="Boxplot da altura das mulheres",ylab="Altura (cm)", col=c("gold1"))
+boxplot(dataquantitativa$IMC,main="Boxplot do IMC das mulheres",ylab="IMC", col=c("pink1"))
+
+# Usando Tidyverse para vari�vel quantitativa
+ggplot(data=dataquantitativa) +  geom_freqpoly(mapping = aes(x=idade),binwidth=1, color = "red")
+
+ggplot(data=dataquantitativa) +  geom_freqpoly(mapping = aes(x=nfilhos),binwidth=1, color = "red")
+
+ggplot(data=dataquantitativa) +  geom_freqpoly(mapping = aes(x=peso),binwidth=1, color = "red")
+
+ggplot(data=dataquantitativa) +  geom_freqpoly(mapping = aes(x=altura),binwidth=1, color = "red")
+
+ggplot(data=dataquantitativa) +  geom_freqpoly(mapping = aes(x=IMC),binwidth=1, color = "red")
+
+#Duas quantitativas
+#scatterplot
+par(mfrow=c(1,1))
+plot (dataquantitativa$idade,dataquantitativa$IMC, main = "Idade vs IMC" , xlab="Idade da mulher", ylab="IMC da mulher", col="purple3")
+ggplot(data = dataquantitativa) + 
+  geom_point(mapping = aes(x = idade, y = IMC))
+
+
+# Salvar resultados no word
+library(rmarkdown)
+render("E:/TrabalhodeR/trabalho_r_am.R", output_format = "html_notebook")
